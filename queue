@@ -1,0 +1,65 @@
+#include "func.h"
+
+void QueueTraverse(SqQueue Q)
+{
+	int i;
+	i = Q.front;
+	while (i != Q.rear)
+	{
+		printf("%d", Q.data[i]);
+		i = (i + 1) % MAXSIZE;
+	}
+	printf("\n");
+}
+
+void ClearQueue(SqQueue *Q)
+{
+	Q->front = Q->rear = 0;
+}
+
+Status QueueEmpty(SqQueue Q)
+{
+	if (Q.front == Q.rear)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+int QueueLength(SqQueue Q)
+{
+	return(Q.rear - Q.front + MAXSIZE) % MAXSIZE;
+}
+
+Status GetHead(SqQueue Q, QElemType* out)
+{
+	if (Q.front == Q.rear)
+		return ERROR;
+	else
+	{
+		*out = Q.data[Q.front];
+		return OK;
+	}
+}
+Status EnQueue(SqQueue* Q, QElemType in)
+{
+	if (Q->front == (Q->rear + 1) % MAXSIZE)
+		return ERROR;
+	else
+	{
+		Q->data[Q->rear] = in;
+		Q->rear = (Q->rear + 1) % MAXSIZE;
+		return OK;
+	}
+}
+Status DeQueue(SqQueue* Q, QElemType* out)
+{
+	if (Q->front == Q->rear)
+		return ERROR;
+	else
+	{
+		*out = Q->data[Q->front];
+		Q->data[Q->front] = 0;
+		Q->front = (Q->front + 1) % MAXSIZE;
+		return OK;
+	}
+}
